@@ -1,0 +1,40 @@
+﻿@page
+@model HaCongHieuRazorPages.Pages.CategoryManagement.CategoryViewModel
+@{
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List Categories</title>
+    <link rel="stylesheet" href="~/css/CategoryCSS/CategoryViewCSS.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>List of Categories</h1>
+        <div class="error-message">@Model.ErrorMessage</div> <table class="category-table">
+            <thead>
+                <tr>
+                    <th>Category ID</th>
+                    <th>Category Name</th>
+                    <th>Category Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model.categories)
+                {
+                    <tr>
+                        <td>@category.CategoryId</td>
+                        <td class="category-name">@category.CategoryName</td>
+                        <td class="category-description">@category.CategoryDesciption</td>
+                        <td>
+                            <a class="btn-update" asp-page="/CategoryManagement/CategoryUpdate?id=@category.CategoryId">Update</a>
+                            <a class="btn-delete" asp-page="/CategoryManagement/CategoryDelete?id=@category.CategoryId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
