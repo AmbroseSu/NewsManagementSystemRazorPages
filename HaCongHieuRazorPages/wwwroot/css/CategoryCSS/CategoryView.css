@@ -1,4 +1,39 @@
-﻿.category-table {
+﻿body {
+    font-family: Arial, sans-serif; /* Set a default font */
+    margin: 0; /* Remove default body margin */
+}
+
+.container {
+    width: 80%; /* Set a fixed width for the container */
+    margin: 20px auto; /* Add spacing and center horizontally */
+}
+
+/* Header styling */
+.header {
+    display: flex; /* Arrange elements horizontally */
+    justify-content: space-between; /* Align items horizontally */
+    align-items: center; /* Align items vertically */
+    margin-bottom: 20px; /* Add spacing below the header */
+}
+
+h1 {
+    font-size: 1.5rem; /* Adjust heading size */
+}
+
+.btn-create {
+    display: inline-block;
+    padding: 8px 16px; /* Adjust padding as needed */
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove button border */
+    border-radius: 4px; /* Add rounded corners */
+    font-size: 1rem;
+    cursor: pointer; /* Indicate clickable button */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Table styling */
+.category-table {
     width: 100%; /* Stretch table to full width */
     border-collapse: collapse; /* Remove default table borders */
     margin: 20px auto; /* Add spacing around the table */
@@ -38,26 +73,19 @@
     max-width: 300px; /* Limit width to control wrapping */
 }
 
-/* Action buttons */
+/* Styles for all action buttons (Update, Delete, Create) */
 .btn-update,
-.btn-delete {
+.btn-delete,
+.btn-create {
     display: inline-block;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    margin: 0 5px; /* Add spacing between buttons */
-}
-
-.btn-update {
-    background-color: #4CAF50; /* Green background */
+    padding: 8px 16px; /* Adjust padding as needed */
+    background-color: #007bff; /* Blue background */
     color: white; /* White text */
-}
-
-.btn-delete {
-    background-color: #f44336; /* Red background */
-    color: white; /* White text */
+    border: none; /* Remove button border */
+    border-radius: 4px; /* Add rounded corners */
+    font-size: 1rem;
+    cursor: pointer; /* Indicate clickable button */
+    text-decoration: none; /* Remove underline */
 }
 
 /* Responsive table container */
