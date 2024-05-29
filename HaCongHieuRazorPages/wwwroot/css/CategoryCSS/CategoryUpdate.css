@@ -1,0 +1,65 @@
+﻿form {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+/* Styling the form-group to have consistent margin */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+    /* Styling labels to be bold and margin-bottom for spacing */
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+/* Input and textarea styling for better appearance and readability */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+    /* Ensure the textarea has a consistent height */
+    .form-control[rows="3"] {
+        height: auto;
+        resize: vertical; /* Allow vertical resize */
+    }
+
+/* Styling for validation summary and validation messages */
+.text-danger {
+    color: #e3342f;
+}
+
+/* Submit button styling */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+/* Adjust the readonly input appearance */
+.form-control[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+}

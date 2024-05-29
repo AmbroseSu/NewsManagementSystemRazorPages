@@ -1,5 +1,5 @@
 ﻿@page
-@model CategoryCreateModel
+@model HaCongHieuRazorPages.Pages.CategoryManagement.CategoryCreateModel
 @{
 }
 
@@ -7,7 +7,7 @@
 <html>
 <head>
     <title>Category Create</title>
-    <link rel="stylesheet" href="~/css/CategoryCSS/CategoryCreateCSS.css" />
+    <link rel="stylesheet" href="~/css/CategoryCSS/CategoryCreate.css" />
 </head>
 <body>
     <form method="post">
@@ -22,8 +22,18 @@
             <textarea class="form-control" id="categoryDescription" rows="3" asp-for="category.CategoryDesciption" required></textarea>
             <span asp-validation-for="category.CategoryDesciption" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="/CategoryManagement/CategoryView" class="btn btn-secondary">Back</a>
+        </div>
+        @if (Model.SuccessMessage != null)
+        {
+            <div class="alert alert-success">@Model.SuccessMessage</div>
+        }
+        @if (Model.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@Model.ErrorMessage</div>
+        }
     </form>
-
 </body>
 </html>

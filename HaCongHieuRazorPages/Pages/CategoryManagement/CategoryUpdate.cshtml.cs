@@ -9,12 +9,50 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
     {
         private readonly ICategoryService iCategoryService;
 
+
         [BindProperty]
-        public short categoryId { get; set; }
         public Category category { get; set; }
-        public void OnGet()
+
+        public CategoryUpdateModel()
         {
-            category = iCategoryService.GetCategoryById(categoryId);
+            iCategoryService = new CategoryService();
+        }
+
+        public IActionResult OnGet(short id)
+        {
+            try
+            {
+                category = iCategoryService.GetCategoryById(id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
+                return Page();
+            }
+
+            return Page();
+        }
+        public IActionResult OnPost()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                iCategoryService.UpdateCategory(category);
+                return RedirectToPage("/CategoryManagement/CategoryView");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
+                return Page();
+            }
         }
     }
 }

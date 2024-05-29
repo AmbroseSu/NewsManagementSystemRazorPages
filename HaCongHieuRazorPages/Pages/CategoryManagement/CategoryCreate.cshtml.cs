@@ -12,6 +12,10 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
         [BindProperty]
         public Category category { get; set; }
 
+        //public bool IsSuccess { get; set; }
+        public string SuccessMessage { get; set; }
+        public string ErrorMessage { get; set; }
+
         public CategoryCreateModel()
         {
             iCategoryService = new CategoryService();
@@ -26,11 +30,14 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
             try
             {
                 iCategoryService.SaveCategory(category);
-                return RedirectToPage();
+                SuccessMessage = "Category created successfully!";
+                category = new Category();
+                ModelState.Clear(); // Clear the form
+                return Page();
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                ErrorMessage = $"An error occurred: {ex.Message}";
                 return Page();
             }
 

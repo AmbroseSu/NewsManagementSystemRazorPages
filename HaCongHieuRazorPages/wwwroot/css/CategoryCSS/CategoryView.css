@@ -79,7 +79,7 @@ h1 {
 .btn-create {
     display: inline-block;
     padding: 8px 16px; /* Adjust padding as needed */
-    background-color: #007bff; /* Blue background */
+    //background-color: #007bff; /* Blue background */
     color: white; /* White text */
     border: none; /* Remove button border */
     border-radius: 4px; /* Add rounded corners */
@@ -93,3 +93,15 @@ h1 {
     overflow-x: auto; /* Enable horizontal scrolling if necessary */
     width: 100%; /* Stretch container to full width */
 }
+
+.btn-create {
+    background: #38ef7d;
+}
+.btn-update {
+    background: #66a6ff;
+}
+.btn-delete {
+    background: #da4453;
+}
+
+
