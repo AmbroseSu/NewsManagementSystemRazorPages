@@ -1,0 +1,81 @@
+﻿@page
+@model HaCongHieuRazorPages.Pages.AccountManagement.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form method="get">
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <label for="searchInput">Search</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" class="form-control mb-2" id="searchInput" name="searchInput" placeholder="Enter search term" value="@Model.SearchInput">
+        </div>
+        <div class="col-auto">
+            <select class="form-control mb-2" id="searchAccount" name="searchAccount">
+                <option value="AccountId" selected="@(Model.IsSelected("AccountId"))">Account ID</option>
+                <option value="AccountName" selected="@(Model.IsSelected("AccountName"))">Account Name</option>
+                <option value="AccountEmail" selected="@(Model.IsSelected("AccountEmail"))">Account Email</option>
+                <option value="AccountRole" selected="@(Model.IsSelected("AccountRole"))">Account Role</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Search</button>
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemAccount[0].AccountId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemAccount[0].AccountName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemAccount[0].AccountEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemAccount[0].AccountRole)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemAccount[0].AccountPassword)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.SystemAccount) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountRole)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountPassword)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.AccountId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.AccountId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.AccountId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

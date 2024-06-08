@@ -50,6 +50,10 @@ namespace Service
         {
             return iTagRepository.GetTagsByNote(note);
         }
+        public List<Tag> GetTagsByIds(List<int> tagIds)
+        {
+            return iTagRepository.GetTagsByIds(tagIds);
+        }
 
     }
 }

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{6483A861-121D-44E6-9816-09E1530D725C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HaCongHieuRazorPages", "HaCongHieuRazorPages\HaCongHieuRazorPages.csproj", "{B109FB39-8DF3-4A2F-A343-DD569C473B76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaCongHieuRazorPages", "HaCongHieuRazorPages\HaCongHieuRazorPages.csproj", "{BCCBE62D-80BD-457C-95B2-45761EF27BA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{6483A861-121D-44E6-9816-09E1530D725C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6483A861-121D-44E6-9816-09E1530D725C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6483A861-121D-44E6-9816-09E1530D725C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B109FB39-8DF3-4A2F-A343-DD569C473B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B109FB39-8DF3-4A2F-A343-DD569C473B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B109FB39-8DF3-4A2F-A343-DD569C473B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B109FB39-8DF3-4A2F-A343-DD569C473B76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCCBE62D-80BD-457C-95B2-45761EF27BA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCCBE62D-80BD-457C-95B2-45761EF27BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCCBE62D-80BD-457C-95B2-45761EF27BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCCBE62D-80BD-457C-95B2-45761EF27BA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -76,6 +76,11 @@ namespace Service
             return iNewsArticleRepository.GetNewsArticlesByStartEndDay(startDate, endDate);
         }
 
+        public List<int> GetTagsByNewsArticleId(string id)
+        {
+            return iNewsArticleRepository.GetTagsByNewsArticleId(id);
+        }
+
 
     }
 }

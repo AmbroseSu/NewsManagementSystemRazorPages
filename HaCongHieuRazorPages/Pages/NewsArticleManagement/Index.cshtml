@@ -1,0 +1,112 @@
+﻿@page
+@model HaCongHieuRazorPages.Pages.NewsArticleManagement.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<form method="get">
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <label for="searchInput">Search</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" class="form-control mb-2" id="searchInput" name="searchInput" placeholder="Enter search term" value="@Model.SearchInput">
+        </div>
+        <div class="col-auto">
+            <select class="form-control mb-2" id="searchNewsArticle" name="searchNewsArticle">
+                <option value="NewsArticleId" selected="@(Model.IsSelected("NewsArticleId"))">NewsArticle ID</option>
+                <option value="NewsTitle" selected="@(Model.IsSelected("NewsTitle"))">News Title</option>
+                <option value="CategoryId" selected="@(Model.IsSelected("CategoryId"))">Category Id</option>
+                <option value="NewsStatus" selected="@(Model.IsSelected("NewsStatus"))">News Status</option>
+                <option value="Tag" selected="@(Model.IsSelected("Tag"))">Tag</option>
+                <option value="CreateById" selected="@(Model.IsSelected("CreateById"))">CreateById</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Search</button>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].NewsArticleId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].NewsTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].NewsContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].NewsStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsArticle[0].Tags)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.NewsArticle) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NewsArticleId)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewsTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewsContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewsStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy.AccountId)
+            </td>
+            <td>
+                @foreach (var tag in item.Tags)
+                {
+                    <span>@tag.TagName</span><br />
+                }
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.NewsArticleId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.NewsArticleId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.NewsArticleId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

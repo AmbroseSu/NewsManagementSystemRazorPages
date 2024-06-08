@@ -16,5 +16,6 @@ namespace Service
         Tag GetTagById(int id);
         List<Tag> GetTagsByName(string name);
         List<Tag> GetTagsByNote(string note);
+        List<Tag> GetTagsByIds(List<int> tagIds);
     }
 }

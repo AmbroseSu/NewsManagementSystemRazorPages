@@ -23,5 +23,6 @@ namespace Repository
         public List<NewsArticle> GetNewsArticlesByTag(string tag) => NewsArticleDAO.GetNewsArticlesByTag(tag);
         public List<NewsArticle> GetNewsArticlesByCreateById(short id) => NewsArticleDAO.GetNewsArticlesByCreateById(id);
         public List<NewsArticle> GetNewsArticlesByStartEndDay(DateTime? startDate, DateTime? endDate) => NewsArticleDAO.GetNewsArticlesByStartEndDay(startDate, endDate);
+        public List<int> GetTagsByNewsArticleId(string id) => NewsArticleDAO.GetTagsByNewsArticleId(id);
     }
 }

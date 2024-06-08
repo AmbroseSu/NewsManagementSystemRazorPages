@@ -1,14 +1,7 @@
-using BusinessObject;
-using DataAccess;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-//builder.Services.AddDbContext<FunewsManagementDbContext>();
-//builder.Services.AddDbContext<FunewsManagementDbContext>(options =>
- //    options.UseSqlServer(builder.Configuration.GetConnectionString("FUNewsManagementDB")));
 
 var app = builder.Build();
 

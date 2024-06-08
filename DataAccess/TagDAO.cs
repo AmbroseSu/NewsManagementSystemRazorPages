@@ -103,5 +103,19 @@ namespace DataAccess
             }
         }
 
+        public static List<Tag> GetTagsByIds(List<int> tagIds)
+        {
+            try
+            {
+                using var context = new FunewsManagementDbContext();
+                return context.Tags.Where(tag => tagIds.Contains(tag.TagId)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+        }
+
     }
 }

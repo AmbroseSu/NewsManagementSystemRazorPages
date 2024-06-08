@@ -16,5 +16,6 @@ namespace Repository
         void UpdateTag(Tag tag);
         List<Tag> GetTagsByName(string name);
         List<Tag> GetTagsByNote(string note);
+        List<Tag> GetTagsByIds(List<int> tagIds);
     }
 }

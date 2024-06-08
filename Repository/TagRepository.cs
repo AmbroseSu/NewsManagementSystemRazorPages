@@ -17,5 +17,6 @@ namespace Repository
         public Tag GetTagById(int id) => TagDAO.GetTagById(id);
         public List<Tag> GetTagsByName(string name) => TagDAO.GetTagByName(name);
         public List<Tag> GetTagsByNote(string note) => TagDAO.GetTagByNote(note);
+        public List<Tag> GetTagsByIds(List<int> tagIds) => TagDAO.GetTagsByIds(tagIds);
     }
 }
