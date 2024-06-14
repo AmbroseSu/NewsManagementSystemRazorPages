@@ -4,6 +4,17 @@
 @{
     ViewData["Title"] = "Edit";
 }
+@functions {
+    public string GetRoleName(int? role)
+    {
+        return role switch
+        {
+            1 => "Staff",
+            2 => "Lecturer",
+            _ => "Unknown"
+        };
+    }
+}
 
 <h1>Edit</h1>
 
@@ -26,8 +37,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="SystemAccount.AccountRole" class="control-label"></label>
-                <input asp-for="SystemAccount.AccountRole" class="form-control" />
-                <span asp-validation-for="SystemAccount.AccountRole" class="text-danger"></span>
+                <input type="text" class="form-control" value="@GetRoleName(Model.SystemAccount.AccountRole)" readonly />
+                @* <span asp-validation-for="SystemAccount.AccountRole" class="text-danger"></span> *@
             </div>
             <div class="form-group">
                 <label asp-for="SystemAccount.AccountPassword" class="control-label"></label>

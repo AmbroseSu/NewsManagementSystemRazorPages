@@ -27,8 +27,15 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
         [BindProperty(SupportsGet = true)]
         public string SearchTag { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(role) || role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
+
             var tags = iTagService.GetTags();
 
             if (!string.IsNullOrEmpty(SearchInput) && !string.IsNullOrEmpty(SearchTag))
@@ -45,6 +52,7 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
             }
 
             Tag = tags;
+            return Page();
         }
 
         public bool IsSelected(string tag)

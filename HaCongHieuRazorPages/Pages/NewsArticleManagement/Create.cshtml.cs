@@ -36,6 +36,11 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
         public IActionResult OnGet()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             ViewData["CategoryId"] = new SelectList(iCategoryService.GetCategories(), "CategoryId", "CategoryName");
             ViewData["CreatedById"] = new SelectList(iSystemAccountService.GetAccounts(), "AccountId", "AccountId");
             AvailableTags = iTagService.GetTags();
@@ -44,6 +49,11 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             if (!ModelState.IsValid)
             {
                 return Page();

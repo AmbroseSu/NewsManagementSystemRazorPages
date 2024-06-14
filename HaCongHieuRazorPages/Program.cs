@@ -3,6 +3,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddSession(o => o.IdleTimeout = TimeSpan.FromMinutes(10));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,6 +21,31 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
+
+app.Use(async (context, next) =>
+{
+    var path = context.Request.Path.ToString().ToLower();
+
+        if (!path.StartsWith("/login") && !path.StartsWith("/login/login") && !path.StartsWith("/newsarticlemanagement"))
+        {
+            var userEmail = context.Session.GetString("UserEmail");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                context.Response.Redirect("/Login/Login");
+                return;
+            }
+        }
+
+
+
+    await next();
+});
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+});
 
 app.MapRazorPages();
 

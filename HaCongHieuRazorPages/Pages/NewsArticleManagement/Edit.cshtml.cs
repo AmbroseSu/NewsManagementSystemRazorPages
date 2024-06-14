@@ -35,17 +35,22 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
         public List<Tag> AvailableTags { get; set; }
 
-        public void OnGet(string id)
+        public IActionResult OnGet(string id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             if (id == null)
             {
-                NotFound();
+                return NotFound();
             }
 
             var newsArticle = iNewsArticleService.GetNewsArticleById(id);
             if (newsArticle == null)
             {
-                NotFound();
+               return NotFound();
             }
             NewsArticle = newsArticle;
 
@@ -57,10 +62,17 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
             // Lấy danh sách các tag có sẵn
             AvailableTags = iTagService.GetTags();
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();

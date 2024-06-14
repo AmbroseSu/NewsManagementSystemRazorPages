@@ -21,6 +21,12 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
 
         public IActionResult OnGet()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(role) || role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             return Page();
         }
 
@@ -30,6 +36,12 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(role) || role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             if (!ModelState.IsValid)
             {
                 return Page();

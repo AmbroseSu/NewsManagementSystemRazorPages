@@ -31,8 +31,14 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
         {
             Category = iCategoryService.GetCategories();
         }*/
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(role) || role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             var categories = iCategoryService.GetCategories();
 
             if (!string.IsNullOrEmpty(SearchInput) && !string.IsNullOrEmpty(SearchCategory))
@@ -47,6 +53,7 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
             }
 
             Category = categories;
+            return Page();
         }
 
         public bool IsSelected(string category)

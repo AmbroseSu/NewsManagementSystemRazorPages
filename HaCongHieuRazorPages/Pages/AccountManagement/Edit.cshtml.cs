@@ -25,18 +25,39 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
 
         public async Task<IActionResult> OnGetAsync(short id)
         {
+            var email = HttpContext.Session.GetString("UserEmail");
+            var role = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(role) )
+            {
+                return RedirectToPage("/Login/Login");
+            }
             if (id == null)
             {
                 return NotFound();
             }
-
-            var systemaccount =  iSystemAccountService.GetAccountById(id);
-            if (systemaccount == null)
+            if (role == "Staff" || role == "Lecturer")
             {
-                return NotFound();
+                var systemaccountt = iSystemAccountService.GetAccountByEmail(email);
+                if (systemaccountt == null)
+                {
+                    return NotFound();
+                }
+                SystemAccount = systemaccountt;
+                return Page();
             }
-            SystemAccount = systemaccount;
-            return Page();
+            else
+            {
+                var systemaccount = iSystemAccountService.GetAccountById(id);
+                if (systemaccount == null)
+                {
+                    return NotFound();
+                }
+                SystemAccount = systemaccount;
+                return Page();
+            }
+
+                
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -71,7 +92,7 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
 
         private bool SystemAccountExists(short id)
         {
-            SystemAccount = iSystemAccountService.GetAccountById(id);
+                SystemAccount = iSystemAccountService.GetAccountById(id);
             if(SystemAccount == null)
             {
                 return false;

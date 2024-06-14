@@ -24,6 +24,11 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -44,6 +49,11 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             if (id == null)
             {
                 return NotFound();

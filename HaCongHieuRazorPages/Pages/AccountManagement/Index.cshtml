@@ -4,6 +4,17 @@
 @{
     ViewData["Title"] = "Index";
 }
+@functions {
+    public string GetRoleName(int? role)
+    {
+        return role switch
+        {
+            1 => "Staff",
+            2 => "Lecturer",
+            _ => "Unknown"
+        };
+    }
+}
 
 <h1>Index</h1>
 
@@ -65,7 +76,8 @@
                 @Html.DisplayFor(modelItem => item.AccountEmail)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AccountRole)
+                @* @Html.DisplayFor(modelItem => item.AccountRole) *@
+                    @GetRoleName(item.AccountRole)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AccountPassword)

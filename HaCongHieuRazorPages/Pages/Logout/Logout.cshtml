@@ -1,0 +1,12 @@
+﻿@page
+@model HaCongHieuRazorPages.Pages.Logout.LogoutModel
+@{
+}
+@functions {
+    public IActionResult OnGet()
+    {
+        HttpContext.Session.Remove("UserEmail");
+        HttpContext.Session.Remove("UserRole");
+        return RedirectToPage("/Login/Login");
+    }
+}

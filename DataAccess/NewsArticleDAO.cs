@@ -203,6 +203,7 @@ namespace DataAccess
                 return context.NewsArticles
                     .Include(n => n.Category)
                     .Include(n => n.Tags)
+                    .Include(cr => cr.CreatedBy)
                     .Where(n => EF.Functions.Like(n.NewsTitle, $"%{title}%"))
                     .ToList();
             }
@@ -239,6 +240,7 @@ namespace DataAccess
                 return context.NewsArticles
                     .Include(n => n.Category)
                     .Include(n => n.Tags)
+                    .Include(cr => cr.CreatedBy)
                     .Where(n => n.NewsStatus.Equals(status))
                     .ToList();
             }
@@ -256,6 +258,7 @@ namespace DataAccess
                 return context.NewsArticles
                               .Include(na => na.Tags)
                               .Include(na => na.Category)
+                              .Include(cr => cr.CreatedBy)
                               .Where(na => na.Tags.Any(t => EF.Functions.Like(t.TagName, $"%{tag}%")))
                               .ToList();
             }

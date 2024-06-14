@@ -30,6 +30,11 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role != "Admin")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             if (!ModelState.IsValid)
             {
                 return Page();
