@@ -27,8 +27,13 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
         [BindProperty(SupportsGet = true)]
         public string SearchAccount { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role != "Admin")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             var accounts = iSystemAccountService.GetAccounts();
 
             if (!string.IsNullOrEmpty(SearchInput) && !string.IsNullOrEmpty(SearchAccount))
@@ -44,11 +49,13 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
             }
 
             SystemAccount = accounts;
+            return Page();
         }
 
         public bool IsSelected(string category)
         {
             return string.Equals(SearchAccount, category, StringComparison.OrdinalIgnoreCase);
         }
+
     }
 }

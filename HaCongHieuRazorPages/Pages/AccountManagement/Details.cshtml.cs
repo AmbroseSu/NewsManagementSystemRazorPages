@@ -23,21 +23,45 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
 
         public async Task<IActionResult> OnGetAsync(short id)
         {
+            var email = HttpContext.Session.GetString("UserEmail");
+            var role = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(role))
+            {
+                return RedirectToPage("/Login/Login");
+            }
             if (id == null)
             {
                 return NotFound();
             }
-
-            var systemaccount = iSystemAccountService.GetAccountById(id);
-            if (systemaccount == null)
+            if (role == "Staff" || role == "Lecturer")
             {
-                return NotFound();
+                var systemaccountt = iSystemAccountService.GetAccountByEmail(email);
+                if (systemaccountt == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    SystemAccount = systemaccountt;
+                }
+                return Page();
             }
             else
             {
-                SystemAccount = systemaccount;
+                var systemaccount = iSystemAccountService.GetAccountById(id);
+                if (systemaccount == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    SystemAccount = systemaccount;
+                }
+                return Page();
             }
-            return Page();
+
+                
         }
     }
 }

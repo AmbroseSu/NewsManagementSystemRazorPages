@@ -24,6 +24,12 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(role) || role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -44,6 +50,12 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(role) || role != "Staff")
+            {
+                return RedirectToPage("/NewsArticleManagement/Index");
+            }
             if (id == null)
             {
                 return NotFound();
