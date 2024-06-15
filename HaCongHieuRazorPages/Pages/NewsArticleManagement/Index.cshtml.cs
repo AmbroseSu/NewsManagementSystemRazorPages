@@ -31,7 +31,14 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
         public async Task OnGetAsync()
         {
+            var email = HttpContext.Session.GetString("UserEmail");
+
             var newsArticles = iNewsArticleService.GetNewsArticles();
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                newsArticles = newsArticles.Where(n => n.CreatedBy.AccountEmail == email).ToList();
+            }
 
             if (!string.IsNullOrEmpty(SearchInput) && !string.IsNullOrEmpty(SearchNewsArticle))
             {
