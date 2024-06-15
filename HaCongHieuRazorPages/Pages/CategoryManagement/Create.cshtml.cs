@@ -39,6 +39,7 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
 
         [BindProperty]
         public Category Category { get; set; } = default!;
+        public string MessageError { get; set; } = string.Empty;
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -56,10 +57,23 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
 
             /*_context.Categories.Add(Category);
             await _context.SaveChangesAsync();*/
-            iCategoryService.SaveCategory(Category);
 
-
-            return RedirectToPage("./Index");
+            try
+            {
+                var categoryName = iCategoryService.GetCategories().Where(c => c.CategoryName.Equals(Category.CategoryName)).ToList();
+                if(categoryName.Count != 0)
+                {
+                    MessageError = "Category Name already exists in the database.";
+                    return Page();
+                }
+                iCategoryService.SaveCategory(Category);
+                return RedirectToPage("./Index");
+            }
+            catch (Exception ex)
+            {
+                MessageError = $"Error: {ex.Message}";
+                return Page();
+            }
         }
     }
 }         

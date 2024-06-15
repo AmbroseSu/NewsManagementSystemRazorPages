@@ -23,6 +23,8 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
         [BindProperty]
         public Category Category { get; set; } = default!;
 
+        public string MessageError { get; set; } = string.Empty;
+
         public async Task<IActionResult> OnGetAsync(short id)
         {
             var role = HttpContext.Session.GetString("UserRole");
@@ -65,9 +67,15 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
 
             try
             {
+                var categoryName = iCategoryService.GetCategories().Where(c => c.CategoryName.Equals(Category.CategoryName)).ToList();
+                if (categoryName.Count != 0)
+                {
+                    MessageError = "Category Name already exists in the database.";
+                    return Page();
+                }
                 iCategoryService.UpdateCategory(Category);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CategoryExists(Category.CategoryId))
                 {
@@ -75,7 +83,8 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
                 }
                 else
                 {
-                    throw;
+                    MessageError = ex.Message;
+                    return Page();
                 }
             }
 

@@ -35,6 +35,8 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
         public List<Tag> AvailableTags { get; set; }
 
+        public string MessageError { get; set; } = string.Empty;
+
         public IActionResult OnGet(string id)
         {
             var role = HttpContext.Session.GetString("UserRole");
@@ -86,11 +88,16 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
                 // Cập nhật danh sách các tag cho bài viết
                 NewsArticle.Tags = selectedTags;
-
+                var newsArticleId = iNewsArticleService.GetNewsArticleById(NewsArticle.NewsArticleId);
+                if (newsArticleId != null)
+                {
+                    MessageError = "NewsArticle Id already exists in the database.";
+                    return Page();
+                }
                 // Cập nhật bài viết
                 iNewsArticleService.UpdateNewsArticle(NewsArticle);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!NewsArticleExists(NewsArticle.NewsArticleId))
                 {
@@ -98,7 +105,8 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
                 }
                 else
                 {
-                    throw;
+                    MessageError = ex.Message;
+                    return Page();
                 }
             }
 

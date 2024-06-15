@@ -36,12 +36,18 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
         public short CurrentUserId { get; set; }
 
+        public string MessageError { get; set; } = string.Empty;
+
         public IActionResult OnGet()
         {
             var role = HttpContext.Session.GetString("UserRole");
             var email = HttpContext.Session.GetString("UserEmail");
             SystemAccount systemAccount = iSystemAccountService.GetAccountByEmail(email);
-            CurrentUserId = systemAccount.AccountId;
+            if(role == "Staff")
+            {
+                CurrentUserId = systemAccount.AccountId;
+            }
+            
             if (role != "Staff")
             {
                 return RedirectToPage("/NewsArticleManagement/Index");
@@ -55,6 +61,14 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
         public async Task<IActionResult> OnPostAsync()
         {
             var role = HttpContext.Session.GetString("UserRole");
+            var email = HttpContext.Session.GetString("UserEmail");
+            SystemAccount systemAccount = iSystemAccountService.GetAccountByEmail(email);
+            if (role == "Staff")
+            {
+                CurrentUserId = systemAccount.AccountId;
+                NewsArticle.CreatedById = systemAccount.AccountId;
+            }
+           
             
             if (role != "Staff")
             {
@@ -75,10 +89,25 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
             // Cập nhật danh sách các tag cho bài viết
             NewsArticle.Tags = selectedTags;
 
-            // Lưu bài viết
-            iNewsArticleService.SaveNewsArticle(NewsArticle);
+            try
+            {
+                var newsArticleId = iNewsArticleService.GetNewsArticleById(NewsArticle.NewsArticleId);
+                if(newsArticleId != null)
+                {
+                    MessageError = "NewsArticle Id already exists in the database.";
+                    return Page();
+                }
+                iNewsArticleService.SaveNewsArticle(NewsArticle);
 
-            return RedirectToPage("./Index");
+                return RedirectToPage("./Index");
+            }
+            catch (Exception ex)
+            {
+                MessageError = $"Error: {ex.Message}";
+                return Page();
+            }
+            // Lưu bài viết
+            
         }
     }
 }
