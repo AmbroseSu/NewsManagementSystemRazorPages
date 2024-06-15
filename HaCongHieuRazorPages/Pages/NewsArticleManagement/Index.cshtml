@@ -59,7 +59,8 @@
     }
     <input type="hidden" id="checkFind" name="checkFind" value="@Model.CheckFind">
     <input type="hidden" id="checkTrue" name="checkTrue" value="@Model.CheckTrue">
-</form>
+@*     <input type="hidden" id="check" name="check" value="@Model.Check">
+ *@</form>
 
 @if (Model.role == "Admin")
 {
@@ -155,6 +156,10 @@
     function setCheckFind() {
         document.getElementById('checkFind').value = 'true';
         document.getElementById('checkTrue').value = 'false';
+        //document.getElementById('check').value = 'true';
+        @{
+            TempData["Check"] = true;
+        }
     }
     function setCheckFindFalse() {
         //TempData.Remove("CheckFind"); 

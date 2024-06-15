@@ -42,6 +42,8 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
         public bool CheckFind { get; set; } = false;
         [BindProperty(SupportsGet = true)]
         public bool CheckTrue { get; set; } = false;
+        [BindProperty(SupportsGet = true)]
+        public bool Check { get; set; }
         public int Count { get; set; }
         public string role {  get; set; }
         public int CurrentPage { get; set; } = 1;
@@ -112,12 +114,18 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
             if (role == "Admin")
             {
-                if (TempData.ContainsKey("CheckTrue")) // "Reload" button clicked
+                if (TempData["Check"] == null)
+                {
+                    TempData["Check"] = false;
+                }
+
+
+                if (TempData.ContainsKey("CheckTrue") && !TempData.ContainsKey("Check")) // "Reload" button clicked
                 {
                     TempData.Remove("CheckFind");
                     TempData.Remove("StartDate");
                     TempData.Remove("EndDate");
-                    TempData.Remove("CheckTrue");
+                    //TempData.Remove("CheckTrue");
                     CheckFind = false; // Reset CheckFind flag
                 }
                 if ((TempData.ContainsKey("CheckFind").Equals(true) && CheckTrue == false) || (CheckFind == true && CheckTrue == false))
@@ -171,6 +179,7 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
                     TempData["StartDate"] = startDateTime; // Set TempData for next request
                     TempData["EndDate"] = endDateTime; // Set TempData for next request
                     TempData["CheckTrue"] = true;
+                    TempData.Remove("Check");
                     newsArticlesQuery = newsArticles.AsQueryable();
                 }
                 else
