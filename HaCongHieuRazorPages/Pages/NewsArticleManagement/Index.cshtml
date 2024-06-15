@@ -33,7 +33,46 @@
             <button type="submit" class="btn btn-primary mb-2">Search</button>
         </div>
     </div>
+
+    @if(Model.role == "Admin")
+    {
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <label for="startDate">Start Date</label>
+            </div>
+            <div class="col-auto">
+                <input type="date" class="form-control mb-2" id="startDate" name="startDate" value="@Model.StartDate.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="col-auto">
+                <label for="endDate">End Date</label>
+            </div>
+            <div class="col-auto">
+                <input type="date" class="form-control mb-2" id="endDate" name="endDate" value="@Model.EndDate.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2" onclick="setCheckFind()">Find</button>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-secondary mb-2" onclick="setCheckFindFalse">Reload</button>
+            </div>
+        </div>
+    }
+    <input type="hidden" id="checkFind" name="checkFind" value="@Model.CheckFind">
 </form>
+
+@if (Model.role == "Admin")
+{
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            @Model.ErrorMessage
+        </div>
+    }
+    <div>
+        <label>Total News Articles: @Model.NewsArticle.Count</label>
+    </div>
+}
+
 
 <table class="table">
     <thead>
@@ -110,3 +149,13 @@
 }
     </tbody>
 </table>
+
+<script>
+    function setCheckFind() {
+        document.getElementById('checkFind').value = 'true';
+    }
+    function setCheckFindFalse() {
+        document.getElementById('checkFind').value = 'false';
+    }
+
+</script>

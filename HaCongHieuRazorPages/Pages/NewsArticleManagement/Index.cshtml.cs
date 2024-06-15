@@ -29,9 +29,57 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
         [BindProperty(SupportsGet = true)]
         public string SearchNewsArticle { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public DateTime StartDate { get; set; } = DateTime.Now;
+
+        [BindProperty(SupportsGet = true)] 
+        public DateTime EndDate { get; set; } = DateTime.Now;
+
+        public string ErrorMessage { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public bool CheckFind {  get; set; } = false;
+        public string role {  get; set; }
         public async Task OnGetAsync()
         {
+            var email = HttpContext.Session.GetString("UserEmail");
+            role = HttpContext.Session.GetString("UserRole");
             var newsArticles = iNewsArticleService.GetNewsArticles();
+
+            if (!string.IsNullOrEmpty(email) && /*!role.Equals("Admin") && !role.Equals("Lecturer")*/role.Equals("Staff"))
+            {
+                newsArticles = newsArticles.Where(n => n.CreatedBy.AccountEmail == email).ToList();
+            }
+            else
+            {
+                newsArticles = newsArticles;
+            }
+            DateTime startDateTime = StartDate.Date;
+            DateTime endDateTime = EndDate.Date.AddDays(1).AddTicks(-1);
+            if (role == "Admin") 
+            { 
+                if(CheckFind == true)
+                {
+                    if (startDateTime > endDateTime)
+                    {
+                        ErrorMessage = "Start Date cannot be later than End Date.";
+                        NewsArticle = newsArticles;
+                        return;
+                    }
+                    else
+                    {
+                        newsArticles = newsArticles.Where(na => na.CreatedDate >= startDateTime && na.CreatedDate <= endDateTime).ToList();
+                    }
+                }
+                else
+                {
+                    newsArticles = newsArticles;
+                }
+                    
+                
+                
+            }
+            
+            
 
             if (!string.IsNullOrEmpty(SearchInput) && !string.IsNullOrEmpty(SearchNewsArticle))
             {
