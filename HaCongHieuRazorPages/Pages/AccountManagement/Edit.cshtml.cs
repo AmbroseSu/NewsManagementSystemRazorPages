@@ -23,6 +23,8 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
         [BindProperty]
         public SystemAccount SystemAccount { get; set; } = default!;
 
+        public string MessageError { get; set; } = string.Empty;
+
         public async Task<IActionResult> OnGetAsync(short id)
         {
             var email = HttpContext.Session.GetString("UserEmail");
@@ -73,9 +75,17 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
 
             try
             {
+                var existingAccount = iSystemAccountService.GetAccountByEmail(SystemAccount.AccountEmail);
+                if (existingAccount != null)
+                {
+                    MessageError = "Email already exists in the database.";
+                    return Page();
+                }
+                var accountRole = iSystemAccountService.GetAccountById(SystemAccount.AccountId);
+                SystemAccount.AccountRole = accountRole.AccountRole;
                 iSystemAccountService.UpdateAccount(SystemAccount);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException Db)
             {
                 if (!SystemAccountExists(SystemAccount.AccountId))
                 {
@@ -83,7 +93,8 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
                 }
                 else
                 {
-                    throw;
+                    MessageError = Db.Message;
+                    return Page();
                 }
             }
 

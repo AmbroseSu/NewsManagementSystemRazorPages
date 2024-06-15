@@ -23,6 +23,8 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
         [BindProperty]
         public Tag Tag { get; set; } = default!;
 
+        public string MessageError { get; set; } = string.Empty;
+
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var role = HttpContext.Session.GetString("UserRole");
@@ -66,9 +68,16 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
 
             try
             {
+                var checkName = iTagService.GetTags().Where(t => t.TagName.Equals(Tag.TagName)).ToList();
+                if (checkName.Count != 0)
+                {
+                    MessageError = "Tag Name already exists in the database.";
+                    return Page();
+                }
                 iTagService.UpdateTag(Tag);
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex )
             {
                 if (!TagExists(Tag.TagId))
                 {
@@ -76,11 +85,12 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
                 }
                 else
                 {
+                    MessageError = ex.Message;
                     throw;
                 }
             }
 
-            return RedirectToPage("./Index");
+            
         }
 
         private bool TagExists(int id)

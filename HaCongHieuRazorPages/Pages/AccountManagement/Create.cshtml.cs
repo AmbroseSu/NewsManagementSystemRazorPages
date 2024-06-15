@@ -26,6 +26,7 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
 
         [BindProperty]
         public SystemAccount SystemAccount { get; set; } = default!;
+        public string MessageError { get; set; } = string.Empty;
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -40,9 +41,29 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
                 return Page();
             }
 
-            iSystemAccountService.SaveAccount(SystemAccount);
+            try
+            {
+                var existingAccount = iSystemAccountService.GetAccountByEmail(SystemAccount.AccountEmail);
+                var existingId = iSystemAccountService.GetAccountById(SystemAccount.AccountId);
+                if (existingAccount != null)
+                {
+                    MessageError = "Email already exists in the database.";
+                    return Page();
+                }
+                if (existingId != null)
+                {
+                    MessageError = "Id already exists in the database.";
+                    return Page();
+                }
 
-            return RedirectToPage("./Index");
+                iSystemAccountService.SaveAccount(SystemAccount);
+                return RedirectToPage("./Index");
+            }
+            catch (Exception ex)
+            {
+                MessageError = $"Error: {ex.Message}";
+                return Page();
+            }
         }
     }
 }

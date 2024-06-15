@@ -15,10 +15,12 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
     public class IndexModel : PageModel
     {
         private readonly INewsArticleService iNewsArticleService;
+        private readonly ISystemAccountService iSystemAccountService;
 
         public IndexModel()
         {
             iNewsArticleService = new NewsArticleService();
+            iSystemAccountService = new SystemAccountService();
         }
 
         public IList<NewsArticle> NewsArticle { get; set; } = default!;
@@ -47,7 +49,9 @@ namespace HaCongHieuRazorPages.Pages.NewsArticleManagement
 
             if (!string.IsNullOrEmpty(email) && /*!role.Equals("Admin") && !role.Equals("Lecturer")*/role.Equals("Staff"))
             {
-                newsArticles = newsArticles.Where(n => n.CreatedBy.AccountEmail == email).ToList();
+                SystemAccount systemAccount = iSystemAccountService.GetAccountByEmail(email);
+                short id = systemAccount.AccountId;
+                newsArticles = newsArticles.Where(n => n.CreatedById == id).ToList();
             }
             else
             {
