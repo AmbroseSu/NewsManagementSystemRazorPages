@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using Service;
+using System.Drawing.Printing;
 
 namespace HaCongHieuRazorPages.Pages.AccountManagement
 {
@@ -26,6 +27,9 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
 
         [BindProperty(SupportsGet = true)]
         public string SearchAccount { get; set; }
+        public int CurrentPage { get; set; } = 1;
+        public int PageSize { get; set; } = 5; // 5 tags per page
+        public int TotalPages { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -35,6 +39,7 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
                 return RedirectToPage("/NewsArticleManagement/Index");
             }
             var accounts = iSystemAccountService.GetAccounts();
+            var accountsQuery = accounts.AsQueryable();
 
             if (!string.IsNullOrEmpty(SearchInput) && !string.IsNullOrEmpty(SearchAccount))
             {
@@ -48,7 +53,16 @@ namespace HaCongHieuRazorPages.Pages.AccountManagement
                 };
             }
 
-            SystemAccount = accounts;
+            //SystemAccount = accounts;
+            TotalPages = (int)Math.Ceiling(accountsQuery.Count() / (double)PageSize);
+
+            var currentPageString = Request.Query["currentPage"];
+            if (!int.TryParse(currentPageString, out int currentPage))
+            {
+                currentPage = 1;
+            }
+            CurrentPage = Math.Clamp(currentPage, 1, TotalPages);
+            SystemAccount = accountsQuery.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
             return Page();
         }
 

@@ -27,6 +27,10 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
         [BindProperty(SupportsGet = true)]
         public string SearchTag { get; set; }
 
+        public int CurrentPage { get; set; } = 1;
+        public int PageSize { get; set; } = 5; // 5 tags per page
+        public int TotalPages { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var role = HttpContext.Session.GetString("UserRole");
@@ -37,7 +41,7 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
             }
 
             var tags = iTagService.GetTags();
-
+            var tagsQuery = tags.AsQueryable();
             if (!string.IsNullOrEmpty(SearchInput) && !string.IsNullOrEmpty(SearchTag))
             {
                 
@@ -51,7 +55,17 @@ namespace HaCongHieuRazorPages.Pages.TagManagement
                 };
             }
 
-            Tag = tags;
+            /*Tag = tags;*/
+            TotalPages = (int)Math.Ceiling(tagsQuery.Count() / (double)PageSize);
+
+            var currentPageString = Request.Query["currentPage"];
+            if (!int.TryParse(currentPageString, out int currentPage))
+            {
+                currentPage = 1;
+            }
+            CurrentPage = Math.Clamp(currentPage, 1, TotalPages);
+
+            Tag = tagsQuery.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
             return Page();
         }
 

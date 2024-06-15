@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject;
 using Service;
+using System.Drawing.Printing;
 
 namespace HaCongHieuRazorPages.Pages.CategoryManagement
 {
@@ -26,6 +27,9 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
 
         [BindProperty(SupportsGet = true)]
         public string SearchCategory { get; set; }
+        public int CurrentPage { get; set; } = 1;
+        public int PageSize { get; set; } = 5; // 5 tags per page
+        public int TotalPages { get; set; }
 
         /*public async Task OnGetAsync()
         {
@@ -40,6 +44,7 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
                 return RedirectToPage("/NewsArticleManagement/Index");
             }
             var categories = iCategoryService.GetCategories();
+            var categoriesQuery = categories.AsQueryable();
 
             if (!string.IsNullOrEmpty(SearchInput) && !string.IsNullOrEmpty(SearchCategory))
             {
@@ -52,7 +57,16 @@ namespace HaCongHieuRazorPages.Pages.CategoryManagement
                 };
             }
 
-            Category = categories;
+            //Category = categories;
+            TotalPages = (int)Math.Ceiling(categoriesQuery.Count() / (double)PageSize);
+
+            var currentPageString = Request.Query["currentPage"];
+            if (!int.TryParse(currentPageString, out int currentPage))
+            {
+                currentPage = 1;
+            }
+            CurrentPage = Math.Clamp(currentPage, 1, TotalPages);
+            Category = categoriesQuery.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
             return Page();
         }
 
